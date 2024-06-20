@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <form method="POST" onsubmit="handlesubmit(e)">
+        <label for="original_url">Original URL:</label>
+        <input type="text" id="original_url" name="original_url" required>
+        <button type="submit">Shorten</button>
+    </form>
+
+    <script>
+
+        const handlesubmit = (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(event.target)
+
+            const original_url = formData.get("original_url")
+
+            fetch("/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "original_url": original_url
+                })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+            })
+            .catch((error) => console.log("ERROR", error))
+        }
+
+    </script>
+</body>
+</html>
