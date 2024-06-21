@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+}
+
+.general_container {
+    width: 100vw;
+    height: 100vw;
+    background-color: #141414;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+h1 {
+    text-align: center;
+}

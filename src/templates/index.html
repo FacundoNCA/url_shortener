@@ -3,16 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/index.css">
     <title>URL Shortener</title>
 </head>
 <body>
-    <form method="POST" onsubmit="handlesubmit(e)">
-        <label for="original_url">Original URL:</label>
-        <input type="text" id="original_url" name="original_url" required>
-        <button type="submit">Shorten</button>
-    </form>
+
+    <div class="general_container">
+
+        <h1>Another Simple url shortener</h1>
+
+        <form id="form" method="POST" onsubmit="handlesubmit(event)">
+            <label for="original_url">Original URL:</label>
+            <input type="text" id="original_url" name="original_url" required>
+            <button type="submit">Shorten</button>
+        </form>
+
+        <div id="short_container" style="display: none;" >
+            <a id="short" target="_blank" href=""></a>
+        </div>
+
+    </div>
+
 
     <script>
+        
+        var url = window.location;
+
+        function handle_response(data) {
+
+            form = document.getElementById("form")
+            form.style.display = "none"
+
+            container = document.getElementById("short_container")
+
+            container.style.display = "block"
+
+            short = document.getElementById("short")
+            short.setAttribute("href", url + data.short_url)
+            short.append(url + data.short_url)
+
+            
+
+
+        }
 
         const handlesubmit = (e) => {
             e.preventDefault();
@@ -21,20 +54,18 @@
 
             const original_url = formData.get("original_url")
 
-            fetch("/", {
+            fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "original_url": original_url
+                    url_original: original_url
                 })
             })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data)
-            })
-            .catch((error) => console.log("ERROR", error))
+                .then((res) => res.json())
+                .then(handle_response)
+                .catch((error) => console.log("ERROR", error))
         }
 
     </script>

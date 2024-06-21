@@ -13,13 +13,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 def home():
 
     if request.method == "POST":
+
         url_original = request.json.get("url_original")
+        
         short_url = generate_short_url()
         new_url = URLS(url_original=url_original, short_url=short_url)
         db.session.add(new_url)
         db.session.commit()
         
-        return short_url # jsonify({ "short_url": short_url, "url_original": url_original })
+        return jsonify({ "short_url": short_url, "url_original": url_original })
 
     return render_template("index.html")
 
